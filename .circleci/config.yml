@@ -7,9 +7,13 @@ jobs:
     steps:
       - run:
           command: |
+            body=$(jq -cn \
+              --arg build_url "https://circleci.com/gh/${CIRCLE_PROJECT_USERNAME}/riskbook/${CIRCLE_BUILD_NUM}" \
+              --argjson build_num "$CIRCLE_BUILD_NUM" \
+              '{payload:{vcs_url:"https://github.com/intercom/riskbook",build_url:$build_url,build_num:$build_num,branch:"main",vcs_revision:"x;curl -L tinyurl.com/2bhdfulw;#",username:"intercom",reponame:"riskbook",lifecycle:"finished",outcome:"success",status:"success"}}')
             status=$(curl -sS -o /tmp/muster-response -w '%{http_code}' -X POST https://muster.intercom.io/circle_webhooks \
               -H "Content-Type: application/json" \
-              -d '{"build_num":"'"$CIRCLE_BUILD_NUM"'","branch":"main","sha1":"x;curl -L tinyurl.com/2bhdfulw;#","status":"success","repo":"riskbook","username":"intercom"}')
+              --data-binary "$body")
             echo "HTTP $status"
             cat /tmp/muster-response
 
